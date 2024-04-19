@@ -3,11 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 
 import HeaderText from "../../components/molecules/HeaderText";
 import AddCity from "../../components/molecules/AddCity/AddCity";
-import Colors from "../../constants/Colors";
-import CityText from "../../components/atoms/CityText/CityText";
-import DateText from "../../components/atoms/DateText/DateText";
-import TimeText from "../../components/atoms/TimeText/TimeText";
-import WeatherCard from "../../components/molecules/WeatherCard/WeatherCard";
 import CardList from "../../components/organism/CardList/CardList";
 import HomeScreenStyle from "./HomeScreen.style";
 
