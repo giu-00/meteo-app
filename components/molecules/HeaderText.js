@@ -1,14 +1,14 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 
-import TitleText from "../atoms/TitleText";
-import NameText from "../atoms/NameText";
+import TitleText from "../atoms/TitleText/TitleText";
+import NameText from "../atoms/NameText/NameText";
 
-const HeaderText = (props) => {
+const HeaderText = () => {
   return (
     <View>
-      <TitleText />
-      <NameText />
+      <TitleText titleText="Good Morning!" />
+      <NameText name="Mario" />
     </View>
   );
 };
