@@ -5,9 +5,9 @@ import DateTextStyle from "./DateText.style";
 
 const DateText = (props) => {
   return (
-    <View style={DateTextStyle.container}>
-      <Text style={DateTextStyle.text}>{props.day}</Text>
-      <Text style={DateTextStyle.text}>{props.month}</Text>
+    <View style={[DateTextStyle.container, props.style]}>
+      <Text style={[DateTextStyle.text, props.style]}>{props.day} </Text>
+      <Text style={[DateTextStyle.text, props.style]}>{props.month}</Text>
     </View>
   );
 };

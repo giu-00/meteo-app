@@ -1,30 +1,58 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import Colors from "./constants/Colors";
-import AppStyle from "./App.style";
+import DetailScreen from "./screens/DetailScreen/DetailScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function Root() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="DetailScreen"
+        component={DetailScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      {/*<Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        </Stack.Navigator>*/}
-      <Tab.Navigator stile={AppStyle.menu}>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            margin: 20,
+            borderRadius: 25,
+            shadowColor: "black",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.2,
+            position: "absolute",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingBottom: 0,
+          },
+        }}
+      >
         <Tab.Screen
-          name="Home"
-          component={HomeScreen}
+          name="Root"
+          component={Root}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -39,8 +67,10 @@ export default function App() {
         />
         <Tab.Screen
           name="Search"
-          component={HomeScreen}
+          component={DetailScreen}
           options={{
+            headerShown: false,
+            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="magnify"
@@ -54,6 +84,8 @@ export default function App() {
           name="Location"
           component={HomeScreen}
           options={{
+            headerShown: false,
+            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="map-marker"

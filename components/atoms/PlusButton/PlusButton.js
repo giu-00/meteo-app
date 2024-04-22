@@ -5,8 +5,8 @@ import PlusButtonStyle from "./PlusButton.style";
 
 const PlusButton = (props) => {
   return (
-    <TouchableOpacity style={PlusButtonStyle.plusButton}>
-      <Text style={PlusButtonStyle.plusButtonText}>+</Text>
+    <TouchableOpacity style={[PlusButtonStyle.plusButton, props.style]}>
+      <Text style={[PlusButtonStyle.plusButtonText, props.style]}>+</Text>
     </TouchableOpacity>
   );
 };

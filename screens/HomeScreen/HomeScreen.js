@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View } from "react-native";
 
 import HeaderText from "../../components/molecules/HeaderText";
 import AddCity from "../../components/molecules/AddCity/AddCity";
@@ -11,12 +11,6 @@ const HomeScreen = (props) => {
     <View style={HomeScreenStyle.container}>
       <HeaderText />
       <AddCity />
-      {/*<CityText city="London" />
-      <DateText day="Friday 18," month="september" />
-  <TimeText time="2:38 pm" />
-      <View style={HomeScreenStyle.card}>
-        <WeatherCard />
-      </View>*/}
       <CardList />
     </View>
   );
