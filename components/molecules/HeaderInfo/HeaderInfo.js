@@ -28,7 +28,7 @@ const HeaderInfo = (props) => {
         month={props.month}
         style={HeaderInfoStyle.date}
       />
-      <WeatherText />
+      <WeatherText weather={props.weather} />
     </View>
   );
 };

@@ -8,7 +8,7 @@ export default StyleSheet.create({
   card: {
     flexDirection: "row",
     width: "90%",
-    height: 130,
+    height: 135,
     borderRadius: 20,
     justifyContent: "space-between",
     marginTop: 20,

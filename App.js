@@ -67,7 +67,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Search"
-          component={DetailScreen}
+          component={""}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -82,7 +82,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Location"
-          component={HomeScreen}
+          component={""}
           options={{
             headerShown: false,
             tabBarShowLabel: false,

@@ -1,9 +1,11 @@
-import { View } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 import WeatherCard from "../../molecules/WeatherCard/WeatherCard";
 import CardListStyle from "./CardList.style";
+import WeatherConditions from "../../../constants/WeatherConditions";
+import moment from "moment";
 
 const CardList = (props) => {
   const navigation = useNavigation();
@@ -14,68 +16,78 @@ const CardList = (props) => {
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
-    const daysOfWeek = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const months = [
-      "january",
-      "february",
-      "march",
-      "april",
-      "june",
-      "july",
-      "august",
-      "september",
-      "october",
-      "november",
-      "december",
-    ];
-
-    let date = new Date();
-    let hours = new Date().getHours();
-    let min = new Date().getMinutes();
-
-    setCurrentDayOfWeek(daysOfWeek[date.getDay()] + " ");
-    setCurrentNumberDay(date.getDate() + ",");
-    setCurrentMonth(months[date.getMonth()]);
-    setCurrentTime(hours + ":" + min);
+    setInterval(() => {
+      setCurrentDayOfWeek(moment().format("dddd") + " ");
+      setCurrentNumberDay(moment().format("D") + ",");
+      setCurrentMonth(moment().format("MMMM"));
+      setCurrentTime(moment().format("LT"));
+    }, "1000");
   }, []);
+
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [cities, setCities] = useState([
+    { name: "London" },
+    { name: "Turin" },
+    { name: "Rome, IT" },
+    { name: "Atene" },
+  ]);
+
+  useEffect(() => {
+    const fetchCity = async () => {
+      try {
+        const promises = cities.map((item) =>
+          axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${item.name}&appid=6396264a12f3ff405e9508bd72955890&units=metric`
+          )
+        );
+        const responses = await Promise.all(promises);
+        const data = responses.map((response) => response.data);
+
+        setData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.warn("error Api:", error);
+      }
+    };
+    fetchCity();
+  }, [cities]);
 
   return (
     <View style={CardListStyle.list}>
-      <WeatherCard
-        city="London"
-        day={[currentDayOfWeek, currentNumberDay]}
-        month={currentMonth}
-        time={currentTime}
-        degree="18°"
-        colors={["#132462", "#355492", "#5986c4"]}
-        onPress={() => {}}
-      />
-      <WeatherCard
-        city="Turin"
-        day={[currentDayOfWeek, currentNumberDay]}
-        month={currentMonth}
-        time={currentTime}
-        degree="22°"
-        colors={["#5f7be2", "#80aded"]}
-        onPress={() => navigation.navigate("DetailScreen")}
-      />
-      <WeatherCard
-        city="Rome"
-        day={[currentDayOfWeek, currentNumberDay]}
-        month={currentMonth}
-        time={currentTime}
-        degree="20°"
-        colors={["#52586d", "#929eac"]}
-        onPress={() => {}}
-      />
+      {isLoading || !data ? (
+        <View>
+          <Text>Caricamento...</Text>
+        </View>
+      ) : (
+        data && (
+          <FlatList
+            data={data}
+            style={{ height: "60%" }}
+            renderItem={(city) => {
+              return (
+                <WeatherCard
+                  city={city.item.name}
+                  day={[currentDayOfWeek, currentNumberDay]}
+                  month={currentMonth}
+                  time={currentTime}
+                  degree={Math.floor(city.item.main.temp) + "°"}
+                  colors={
+                    WeatherConditions[city.item.weather[0].main]?.color || [
+                      "#132462",
+                      "#355492",
+                      "#5986c4",
+                    ]
+                  }
+                  onPress={() => {
+                    navigation.navigate("DetailScreen", { city: city.item });
+                  }}
+                />
+              );
+            }}
+          />
+        )
+      )}
     </View>
   );
 };

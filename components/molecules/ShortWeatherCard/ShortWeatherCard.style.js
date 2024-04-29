@@ -12,10 +12,10 @@ export default StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#82a7eb",
     marginLeft: 20,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.1,
+    backgroundColor: "rgba(189, 187, 187, 0.2)",
   },
 });

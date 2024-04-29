@@ -1,20 +1,42 @@
-const currentDate = () => {
-  const date = new Date();
+import React, { useState, useEffect } from "react";
 
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const currentNumberDay = date.getDate();
+export const getFullDate = () => {
+  const [currentDayOfWeek, setCurrentDayOfWeek] = useState("");
+  const [currentNumberDay, setCurrentNumberDay] = useState("");
+  const [currentMonth, setCurrentMonth] = useState("");
+  const [currentTime, setCurrentTime] = useState("");
 
-  const currentDayOfWeek = daysOfWeek[date.getDay()];
+  useEffect(() => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const months = [
+      "january",
+      "february",
+      "march",
+      "april",
+      "june",
+      "july",
+      "august",
+      "september",
+      "october",
+      "november",
+      "december",
+    ];
 
-  const currentTime = date.toLocaleTimeString();
+    let date = new Date();
+    let hours = new Date().getHours();
+    let min = new Date().getMinutes();
 
-  return currentNumberDay, currentDayOfWeek, currentTime;
+    setCurrentDayOfWeek(daysOfWeek[date.getDay()] + " ");
+    setCurrentNumberDay(date.getDate() + ",");
+    setCurrentMonth(months[date.getMonth()]);
+    setCurrentTime(hours + ":" + min);
+  }, []);
 };

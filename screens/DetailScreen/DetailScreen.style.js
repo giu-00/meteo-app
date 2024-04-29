@@ -4,7 +4,6 @@ import Colors from "../../constants/Colors";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    //justifyContent: "center",
   },
   card: {
     //alignItems: "center",
