@@ -15,8 +15,8 @@ export default StyleSheet.create({
   },
   later: {
     position: "relative",
-    top: 40,
-    fontSize: 10,
-    marginLeft: 19,
+    top: 43,
+    fontSize: 14,
+    marginLeft: 25,
   },
 });

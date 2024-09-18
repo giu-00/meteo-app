@@ -9,18 +9,20 @@ import ScrollableCard from "../../components/organism/ScrollableCard/ScrollableC
 import DetailScreenStyle from "./DetailScreen.style";
 import WeatherConditions from "../../constants/WeatherConditions";
 import ForecastLine from "../../components/molecules/ForecastLine/ForecastLine";
+import WeatherIcon from "../../components/atoms/WeatherIcon";
+import { useSelector } from "react-redux";
 
 const DetailScreen = (props) => {
   const [currentDayOfWeek, setCurrentDayOfWeek] = useState("");
   const [currentNumberDay, setCurrentNumberDay] = useState("");
   const [currentMonth, setCurrentMonth] = useState("");
   const { city } = props.route.params;
+  const { username } = useSelector((state) => state.weather);
 
   useEffect(() => {
     setCurrentDayOfWeek(moment().format("dddd") + " ");
     setCurrentNumberDay(moment().format("D") + ",");
     setCurrentMonth(moment().format("MMMM"));
-    //setCurrentTime(moment().format("LT"));
   }, []);
   return (
     <View style={DetailScreenStyle.container}>
@@ -42,13 +44,21 @@ const DetailScreen = (props) => {
         />
 
         <View style={DetailScreenStyle.containerDegree}>
+          <WeatherIcon
+            image={
+              "https://openweathermap.org/img/wn/" +
+              WeatherConditions[city.weather[0].main]?.icon +
+              "@2x.png"
+            }
+            style={DetailScreenStyle.icon}
+          />
           <DegreeText
             style={DetailScreenStyle.degree}
             degree={Math.floor(city.main.temp) + "°"}
           />
         </View>
-        <ForecastLine />
-        <ScrollableCard />
+        <ForecastLine city={city.name} />
+        <ScrollableCard city={city.name} />
       </LinearGradient>
     </View>
   );

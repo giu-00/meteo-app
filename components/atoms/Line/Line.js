@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import LineStyle from "./Line.style";
 
-const Line = (props) => {
+const Line = () => {
   return (
     <View>
       <LinearGradient

@@ -1,9 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  container: {
-    //flexDirection: "column",
-  },
   dots: {
     flexDirection: "row",
     justifyContent: "flex-start",

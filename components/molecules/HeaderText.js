@@ -4,11 +4,11 @@ import { View } from "react-native";
 import TitleText from "../atoms/TitleText/TitleText";
 import NameText from "../atoms/NameText/NameText";
 
-const HeaderText = () => {
+const HeaderText = (props) => {
   return (
     <View>
       <TitleText titleText="Good Morning!" />
-      <NameText name="Mario" />
+      <NameText username={props.username} />
     </View>
   );
 };

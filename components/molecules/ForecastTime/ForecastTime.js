@@ -1,35 +1,49 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ForecastTimeStyle from "./ForecastTime.style";
 import TimeText from "../../atoms/TimeText/TimeText";
-import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { getForecast } from "../../../store/weatherAction";
 
 const ForecastTime = (props) => {
-  const [currentTime, setCurrentTime] = useState("");
-  const [oneHour, setOneHour] = useState("");
-  const [twoHour, setTwoHour] = useState("");
-  const [threeHour, setThreeHour] = useState("");
-  const [fourHour, setFourHour] = useState("");
+  const city = props.city;
+  const { isForecastLoading, forecastHour, forecastDaily } = useSelector(
+    (state) => state.weather
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setInterval(() => {
-      setCurrentTime(moment().format("LT"));
-      setOneHour(moment().add(1, "hours").format("hh:mm A"));
-      setTwoHour(moment().add(2, "hours").format("hh:mm A"));
-      setThreeHour(moment().add(3, "hours").format("hh:mm A"));
-      setFourHour(moment().add(4, "hours").format("hh:mm A"));
-    }, "1000");
+    dispatch(getForecast(city));
   }, []);
 
   return (
     <View style={ForecastTimeStyle.container}>
-      <Text style={ForecastTimeStyle.now}>Now</Text>
-      <TimeText style={ForecastTimeStyle.later} time={currentTime} />
-      <TimeText style={ForecastTimeStyle.later} time={oneHour} />
-      <TimeText style={ForecastTimeStyle.later} time={twoHour} />
-      <TimeText style={ForecastTimeStyle.later} time={threeHour} />
-      <TimeText style={ForecastTimeStyle.later} time={fourHour} />
+      {isForecastLoading || !forecastHour ? (
+        <View>
+          <Text>Caricamento...</Text>
+        </View>
+      ) : (
+        forecastHour && (
+          <View style={ForecastTimeStyle.container}>
+            {forecastHour.map((item, index) => {
+              return index === 0 ? (
+                <TimeText
+                  style={ForecastTimeStyle.now}
+                  time={"NOW"}
+                  key={index}
+                />
+              ) : (
+                <TimeText
+                  style={ForecastTimeStyle.later}
+                  time={item.time}
+                  key={index}
+                />
+              );
+            })}
+          </View>
+        )
+      )}
     </View>
   );
 };

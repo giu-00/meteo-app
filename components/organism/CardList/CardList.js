@@ -1,14 +1,17 @@
 import { View, FlatList, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import WeatherCard from "../../molecules/WeatherCard/WeatherCard";
 import CardListStyle from "./CardList.style";
 import WeatherConditions from "../../../constants/WeatherConditions";
 import moment from "moment";
+import { getWeather } from "../../../store/weatherAction";
 
-const CardList = (props) => {
+const CardList = () => {
+  const { APIdata, isLoading, cities } = useSelector((state) => state.weather);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [currentDayOfWeek, setCurrentDayOfWeek] = useState("");
   const [currentNumberDay, setCurrentNumberDay] = useState("");
@@ -24,45 +27,22 @@ const CardList = (props) => {
     }, "1000");
   }, []);
 
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const [cities, setCities] = useState([
-    { name: "London" },
-    { name: "Turin" },
-    { name: "Rome, IT" },
-    { name: "Atene" },
-  ]);
-
   useEffect(() => {
-    const fetchCity = async () => {
-      try {
-        const promises = cities.map((item) =>
-          axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${item.name}&appid=6396264a12f3ff405e9508bd72955890&units=metric`
-          )
-        );
-        const responses = await Promise.all(promises);
-        const data = responses.map((response) => response.data);
-
-        setData(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.warn("error Api:", error);
-      }
-    };
-    fetchCity();
+    if (cities.length > 0) {
+      dispatch(getWeather(cities));
+    }
   }, [cities]);
 
   return (
     <View style={CardListStyle.list}>
-      {isLoading || !data ? (
+      {isLoading && !APIdata ? (
         <View>
           <Text>Caricamento...</Text>
         </View>
       ) : (
-        data && (
+        APIdata && (
           <FlatList
-            data={data}
+            data={APIdata}
             style={{ height: "60%" }}
             renderItem={(city) => {
               return (
@@ -71,14 +51,13 @@ const CardList = (props) => {
                   day={[currentDayOfWeek, currentNumberDay]}
                   month={currentMonth}
                   time={currentTime}
-                  degree={Math.floor(city.item.main.temp) + "°"}
-                  colors={
-                    WeatherConditions[city.item.weather[0].main]?.color || [
-                      "#132462",
-                      "#355492",
-                      "#5986c4",
-                    ]
+                  image={
+                    "https://openweathermap.org/img/wn/" +
+                    WeatherConditions[city.item.weather[0].main]?.icon +
+                    "@2x.png"
                   }
+                  degree={Math.floor(city.item.main.temp) + "°"}
+                  colors={WeatherConditions[city.item.weather[0].main]?.color}
                   onPress={() => {
                     navigation.navigate("DetailScreen", { city: city.item });
                   }}

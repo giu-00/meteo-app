@@ -1,20 +1,23 @@
 import { StyleSheet } from "react-native";
-import Colors from "../../constants/Colors";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
   },
-  card: {
-    //alignItems: "center",
-  },
   header: {
     marginTop: 60,
   },
   containerDegree: {
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 0,
+  },
+  icon: {
+    width: 100,
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
   },
   degree: {
     fontSize: 100,

@@ -9,9 +9,10 @@ export default StyleSheet.create({
     fontSize: 24,
     fontWeight: "500",
     top: 58,
+    marginLeft: 22,
   },
   degree: {
-    fontSize: 21,
+    fontSize: 22,
     fontWeight: "300",
     position: "relative",
     top: 60,
